@@ -3,6 +3,8 @@
 ## Introduction
 This role installs and configure `geoipupdate` on FreeBSD.
 
+The databases are updated periodically using a `cron` job, and the database files are stored in `/var/db/geoip`.
+
 ## Variables
 
 See [defaults/main.yml](defaults/main.yml) for the default values of each.
