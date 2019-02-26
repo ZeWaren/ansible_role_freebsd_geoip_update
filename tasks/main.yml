@@ -1,0 +1,42 @@
+- name: Ensure the db directory exists
+  file:
+    path: /var/db/geoip
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
+
+- name: Make sure geoipupdate is installed
+  pkgng: name=geoipupdate state=present
+
+- name: Configure the database directory
+  lineinfile:
+    dest: /usr/local/etc/GeoIP.conf
+    regexp: '^DatabaseDirectory\s+'
+    line: "DatabaseDirectory /var/db/geoip"
+
+- name: Configure the account identifier
+  lineinfile:
+    dest: /usr/local/etc/GeoIP.conf
+    regexp: '^AccountID\s+'
+    line: "AccountID {{ geoip_update_account_id }}"
+
+- name: Configure the licence key
+  lineinfile:
+    dest: /usr/local/etc/GeoIP.conf
+    regexp: '^LicenseKey\s+'
+    line: "LicenseKey {{ geoip_update_license_key }}"
+
+- name: Configure the edition ids
+  lineinfile:
+    dest: /usr/local/etc/GeoIP.conf
+    regexp: '^EditionIDs\s+'
+    line: "EditionIDs {{ geoip_update_edition_ids }}"
+
+- name: Schedule the update
+  cron:
+    name: Update the geoip databases
+    job: /usr/local/bin/geoipupdate
+    minute: 12
+    hour: 5
+    day: 26

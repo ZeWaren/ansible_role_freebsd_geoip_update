@@ -1,0 +1,3 @@
+geoip_update_edition_ids: GeoLite2-Country GeoLite2-City
+geoip_update_account_id: "0"
+geoip_update_license_key: "000000000000"
